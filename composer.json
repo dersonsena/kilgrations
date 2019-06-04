@@ -1,0 +1,19 @@
+{
+    "name": "dersonsena/kilgrations",
+    "description": "A simple migration implementation for DarkMira Tour Talk",
+    "authors": [
+        {
+            "name": "Kilderson Sena",
+            "email": "dersonsena@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7",
+        "vlucas/phpdotenv": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dersonsena\\Migrations\\": "src/"
+        }
+    }
+}
