@@ -21,6 +21,8 @@ class ActionFactory
                 return new Downgrade($connection);
             case 4:
                 return new History($connection);
+            case 5:
+                return new ExitAction;
         }
     }
 }

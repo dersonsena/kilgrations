@@ -40,9 +40,4 @@ if (!in_array($choise, [1, 2, 3, 4, 5])) {
     exit(0);
 }
 
-if ($choise === 5) {
-    echo 'See ya! ;)' . PHP_EOL;
-    exit(0);
-}
-
 (new MigrationApp($pdo, $choise))->run();
