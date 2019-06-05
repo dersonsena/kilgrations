@@ -138,6 +138,17 @@ class PDOConnection
 
     /**
      * @param string $tableName
+     * @param array $fields
+     * @return void
+     */
+    public function dropTable(string $tableName)
+    {
+        $sql = sprintf("DROP TABLE IF EXISTS `%s`", $tableName);
+        return $this->execute($sql);
+    }
+
+    /**
+     * @param string $tableName
      * @return bool
      */
     public function tableExists(string $tableName): bool
@@ -154,5 +165,28 @@ class PDOConnection
         ]);
 
         return $row !== false;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $column
+     * @param string $type
+     * @return void
+     */
+    public function addColumn(string $tableName, string $column, string $type)
+    {
+        $sql = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` %s", $tableName, $column, $type);
+        return $this->execute($sql);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $column
+     * @return void
+     */
+    public function dropColumn(string $tableName, string $column)
+    {
+        $sql = sprintf("ALTER TABLE `%s` DROP COLUMN `%s`", $tableName, $column);
+        return $this->execute($sql);
     }
 }
