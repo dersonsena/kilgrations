@@ -108,9 +108,9 @@ class PDOConnection
     /**
      * @param string $sql
      * @param array $params
-     * @return void
+     * @return array
      */
-    public function fetchAll(string $sql, array $params = [])
+    public function fetchAll(string $sql, array $params = []): array
     {
         $stmt = static::$connection->prepare($sql);
         $stmt->execute($params);

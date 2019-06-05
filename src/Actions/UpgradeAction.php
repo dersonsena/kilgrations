@@ -19,27 +19,54 @@ class UpgradeAction implements ActionInterface
 
     public function execute()
     {
-        $sql = "SELECT `migration` FROM `". MIGRATION_TABLENAME ."` ORDER BY `timestamp` DESC";
-
         $output = '';
-        $migrationsDb = $this->connection->fetchAll($sql);
+        $migrationsDb = $this->getMigrationsOfTheDb();
         $migrationsPath = $this->getMigrationFiles();
         $intercect = array_diff($migrationsPath, $migrationsDb);
 
+        if (empty($intercect)) {
+            echo 'No migration will be performed. Your database structure is up to date.' . PHP_EOL;
+            exit(0);
+        }
+
         /** @var MigrationAbstract[] $migrationsMap */
         $migrationsMap = array_map(function ($className) use ($output) {
-            $output = $className . PHP_EOL;
             $fullClassName = "Dersonsena\\Migrations\\Migrations\\{$className}";
-            return new $fullClassName($this->connection);
+            $obj = new $fullClassName($this->connection);
+
+            return ['name' => $className, 'object' => $obj];
         }, $intercect);
 
         foreach ($migrationsMap as $migration) {
-            $migration->upgrade();
+            $migration['object']->upgrade();
+
+            $this->connection->insert(MIGRATION_TABLENAME, [
+                'timestamp' => date('Y-m-d H:i:s'),
+                'migration' => $migration['name']
+            ]);
+
+            $output .= '>> ' . $migration['name'] . PHP_EOL;
         }
 
-        $output = 'The following migration(s) were executed successfully.' . $output;
+        echo 'The following migration(s) were executed successfully.' . PHP_EOL . $output;
     }
 
+    /**
+     * @return array
+     */
+    private function getMigrationsOfTheDb(): array
+    {
+        $sql = "SELECT `migration` FROM `". MIGRATION_TABLENAME ."` ORDER BY `timestamp` DESC";
+        $rows = $this->connection->fetchAll($sql);
+
+        return array_map(function ($migration) {
+            return $migration['migration'];
+        }, $rows);
+    }
+
+    /**
+     * @return array
+     */
     private function getMigrationFiles(): array
     {
         $migrationsPath = scandir(MIGRATION_DIR);

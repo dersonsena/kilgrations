@@ -45,7 +45,7 @@ class MigrationApp
         $this->connection->createTable(MIGRATION_TABLENAME, [
             'id' => 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT',
             'timestamp' => 'TIMESTAMP NOT NULL',
-            'migration' => 'VARCHAR(100) NOT NULL'
+            'migration' => 'VARCHAR(100) UNIQUE NOT NULL'
         ]);
     }
 }

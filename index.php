@@ -1,6 +1,9 @@
 <?php
+
 use Dersonsena\Migrations\PDOConnection;
 use Dersonsena\Migrations\MigrationApp;
+
+date_default_timezone_set("America/Fortaleza");
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -17,10 +20,6 @@ $pdo = PDOConnection::build([
     'password' => getenv('DB_PASSWORD'),
     'charset' => getenv('DB_CHARSET')
 ]);
-
-$pdo->delete('persons', 'id = 2');
-
-die;
 
 $message  = "
 ==========================================
