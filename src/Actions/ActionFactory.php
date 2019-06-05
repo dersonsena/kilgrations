@@ -14,13 +14,13 @@ class ActionFactory
     {
         switch ($choise) {
             case 1:
-                return new AddMigration($connection);
+                return new AddMigrationAction($connection);
             case 2:
-                return new Upgrade($connection);
+                return new UpgradeAction($connection);
             case 3:
-                return new Downgrade($connection);
+                return new DowngradeAction($connection);
             case 4:
-                return new History($connection);
+                return new HistoryAction($connection);
             case 5:
                 return new ExitAction;
         }

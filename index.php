@@ -18,6 +18,10 @@ $pdo = PDOConnection::build([
     'charset' => getenv('DB_CHARSET')
 ]);
 
+$pdo->delete('persons', 'id = 2');
+
+die;
+
 $message  = "
 ==========================================
 KILGRATION v1.0

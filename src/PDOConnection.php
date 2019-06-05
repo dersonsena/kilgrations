@@ -57,6 +57,42 @@ class PDOConnection
     }
 
     /**
+     * @param string $tableName
+     * @param array $data
+     * @return void
+     */
+    public function insert(string $tableName, array $data)
+    {
+        $columns = array_keys($data);
+
+        $columnsBind = array_map(function ($column) {
+            return ':' . $column;
+        }, $columns);
+
+        $columns = implode(', ', $columns);
+        $columnsBind = implode(', ', $columnsBind);
+        $sql = sprintf('INSERT INTO `%s` (%s) VALUES (%s)', $tableName, $columns, $columnsBind);
+
+        return static::$connection
+            ->prepare($sql)
+            ->execute($data);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $conditions
+     * @return void
+     */
+    public function delete(string $tableName, string $conditions)
+    {
+        $sql = sprintf('DELETE FROM `%s` WHERE (%s)', $tableName, $conditions);
+
+        return static::$connection
+            ->prepare($sql)
+            ->execute();
+    }
+
+    /**
      * @param string $sql
      * @param array $params
      * @return void

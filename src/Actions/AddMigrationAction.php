@@ -4,7 +4,7 @@ namespace Dersonsena\Migrations\Actions;
 
 use Dersonsena\Migrations\PDOConnection;
 
-class AddMigration implements ActionInterface
+class AddMigrationAction implements ActionInterface
 {
     /**
      * @var PDOConnection
@@ -25,7 +25,7 @@ class AddMigration implements ActionInterface
 
 namespace Dersonsena\\Migrations\\Migrations;
 
-class {$className} extends Dersonsena\\Migrations\\MigrationAbstract
+class {$className} extends \Dersonsena\\Migrations\\MigrationAbstract
 {
     public function upgrade()
     {
@@ -46,6 +46,6 @@ EOT;
         $handle = fopen(MIGRATION_DIR . DS . $className . '.php', 'w');
         fwrite($handle, trim($data));
 
-        echo "The migration {$className} has been created successfuly" . PHP_EOL;
+        echo "The migration {$className} has been created successfully." . PHP_EOL;
     }
 }

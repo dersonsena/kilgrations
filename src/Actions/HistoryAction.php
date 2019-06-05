@@ -4,7 +4,7 @@ namespace Dersonsena\Migrations\Actions;
 
 use Dersonsena\Migrations\PDOConnection;
 
-class Downgrade implements ActionInterface
+class HistoryAction implements ActionInterface
 {
     /**
      * @var PDOConnection
@@ -18,5 +18,6 @@ class Downgrade implements ActionInterface
 
     public function execute()
     {
+        echo 'History Action';
     }
 }
