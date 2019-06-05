@@ -9,7 +9,7 @@ abstract class MigrationAbstract
     /**
      * @var PDOConnection
      */
-    private $connection;
+    protected $connection;
 
     public function __construct(PDOConnection $connection)
     {
@@ -17,7 +17,7 @@ abstract class MigrationAbstract
     }
 
     abstract public function upgrade();
-    
+
     abstract public function downgrade();
 
     /**
