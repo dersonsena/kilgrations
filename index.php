@@ -37,10 +37,15 @@ Choose one of the options below:
 echo $message;
 
 $choise = (int)readline('Your Choise: ');
+$downgradeCount = 1;
 
 if (!in_array($choise, [1, 2, 3, 4, 5])) {
     echo 'Invalid Option. Operation Aborted!' . PHP_EOL;
     exit(0);
 }
 
-(new MigrationApp($pdo, $choise))->run();
+if ($choise === 3) {
+    $downgradeCount = PHP_EOL . (int)readline('How many steps do you want downgrade? (default = 1): ');
+}
+
+(new MigrationApp($pdo, $choise, $downgradeCount))->run();

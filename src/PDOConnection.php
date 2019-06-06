@@ -57,6 +57,24 @@ class PDOConnection
     }
 
     /**
+     * @param string $sql
+     * @return void
+     */
+    public function query(string $sql)
+    {
+        return static::$connection->query($sql);
+    }
+
+    /**
+     * @param string $sql
+     * @return void
+     */
+    public function exec(string $sql)
+    {
+        return static::$connection->exec($sql);
+    }
+
+    /**
      * @param string $tableName
      * @param array $data
      * @return void

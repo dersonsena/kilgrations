@@ -40,7 +40,7 @@ EOT;
 
         if (!is_writeable(MIGRATION_DIR)) {
             echo "The migration dir '". MIGRATION_DIR ."' is not writable." . PHP_EOL;
-            exit(0);
+            return;
         }
 
         $handle = fopen(MIGRATION_DIR . DS . $className . '.php', 'w');

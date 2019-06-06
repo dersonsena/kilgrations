@@ -16,10 +16,16 @@ class MigrationApp
      */
     private $choise;
 
-    public function __construct(PDOConnection $connection, int $choise)
+    /**
+     * @var int
+     */
+    private $downgradeCount;
+
+    public function __construct(PDOConnection $connection, int $choise, int $downgradeCount = 1)
     {
         $this->connection = $connection;
         $this->choise = $choise;
+        $this->downgradeCount = $downgradeCount;
     }
 
     /**
@@ -29,8 +35,9 @@ class MigrationApp
     {
         $this->createMigrationTable();
 
-        $action = ActionFactory::build($this->choise, $this->connection);
-        return $action->execute();
+        $action = ActionFactory::build($this->connection, $this->choise, $this->downgradeCount);
+        $action->execute();
+        exit(0);
     }
 
     /**

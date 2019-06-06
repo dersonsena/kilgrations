@@ -12,5 +12,6 @@ class Kilgration1559767005 extends \Dersonsena\Migrations\MigrationAbstract
 
     public function downgrade()
     {
+        //$this->connection->dropColumn('persons', 'birth_date');
     }
 }

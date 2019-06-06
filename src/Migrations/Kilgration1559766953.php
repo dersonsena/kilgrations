@@ -21,5 +21,6 @@ class Kilgration1559766953 extends \Dersonsena\Migrations\MigrationAbstract
 
     public function downgrade()
     {
+        //$this->connection->dropTable('persons');
     }
 }

@@ -3,10 +3,11 @@
 namespace Dersonsena\Migrations\Actions;
 
 use Dersonsena\Migrations\PDOConnection;
-use Dersonsena\Migrations\MigrationAbstract;
 
 class UpgradeAction implements ActionInterface
 {
+    use ActionHelperTrait;
+
     /**
      * @var PDOConnection
      */
@@ -19,23 +20,16 @@ class UpgradeAction implements ActionInterface
 
     public function execute()
     {
-        $output = '';
         $migrationsDb = $this->getMigrationsOfTheDb();
         $migrationsPath = $this->getMigrationFiles();
         $intercect = array_diff($migrationsPath, $migrationsDb);
 
         if (empty($intercect)) {
             echo 'No migration will be performed. Your database structure is up to date.' . PHP_EOL;
-            exit(0);
+            return;
         }
 
-        /** @var MigrationAbstract[] $migrationsMap */
-        $migrationsMap = array_map(function ($className) use ($output) {
-            $fullClassName = "Dersonsena\\Migrations\\Migrations\\{$className}";
-            $obj = new $fullClassName($this->connection);
-
-            return ['name' => $className, 'object' => $obj];
-        }, $intercect);
+        $migrationsMap = $this->getMigrationsClassMap($intercect);
 
         foreach ($migrationsMap as $migration) {
             $migration['object']->upgrade();
@@ -45,38 +39,10 @@ class UpgradeAction implements ActionInterface
                 'migration' => $migration['name']
             ]);
 
-            $output .= '>> ' . $migration['name'] . PHP_EOL;
+            echo '>> Applying the migration ' . $migration['name'] . PHP_EOL;
+            sleep(0.5);
         }
 
-        echo 'The following migration(s) were executed successfully.' . PHP_EOL . $output;
-    }
-
-    /**
-     * @return array
-     */
-    private function getMigrationsOfTheDb(): array
-    {
-        $sql = "SELECT `migration` FROM `". MIGRATION_TABLENAME ."` ORDER BY `timestamp` DESC";
-        $rows = $this->connection->fetchAll($sql);
-
-        return array_map(function ($migration) {
-            return $migration['migration'];
-        }, $rows);
-    }
-
-    /**
-     * @return array
-     */
-    private function getMigrationFiles(): array
-    {
-        $migrationsPath = scandir(MIGRATION_DIR);
-
-        $migrationsPath = array_filter($migrationsPath, function ($file) {
-            return !in_array($file, ['.', '..', '.gitkeep']);
-        });
-
-        return array_map(function ($file) {
-            return str_replace('.php', '', $file);
-        }, $migrationsPath);
+        echo 'The following migration(s) were executed successfully.' . PHP_EOL;
     }
 }
