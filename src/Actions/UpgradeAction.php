@@ -33,6 +33,7 @@ class UpgradeAction implements ActionInterface
 
         foreach ($migrationsMap as $migration) {
             $migration['object']->upgrade();
+            sleep(0.5);
 
             $this->connection->insert(MIGRATION_TABLENAME, [
                 'timestamp' => date('Y-m-d H:i:s'),
@@ -40,7 +41,6 @@ class UpgradeAction implements ActionInterface
             ]);
 
             echo '>> Applying the migration ' . $migration['name'] . PHP_EOL;
-            sleep(0.5);
         }
 
         echo 'The following migration(s) were executed successfully.' . PHP_EOL;

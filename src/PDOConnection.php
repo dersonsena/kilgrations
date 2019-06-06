@@ -149,7 +149,11 @@ class PDOConnection
 
         $rawFields = implode(",\n", $rawFields);
 
-        $sql = sprintf("CREATE TABLE IF NOT EXISTS `%s` (%s)", $tableName, $rawFields);
+        $sql = sprintf(
+            "CREATE TABLE IF NOT EXISTS `%s` (%s) DEFAULT CHARACTER SET utf8 ENGINE=InnoDB",
+            $tableName,
+            $rawFields
+        );
 
         return $this->execute($sql);
     }

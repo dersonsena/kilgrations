@@ -13,7 +13,7 @@ class Kilgration1559766953 extends \Dersonsena\Migrations\MigrationAbstract
             `email` VARCHAR(60) NOT NULL
         )*/
         $this->connection->createTable('persons', [
-            'id' => 'INT NOT NULL PRIMARY KEY',
+            'id' => 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT',
             'name' => 'VARCHAR(60) NOT NULL',
             'email' => 'VARCHAR(60) NOT NULL'
         ]);
@@ -21,6 +21,6 @@ class Kilgration1559766953 extends \Dersonsena\Migrations\MigrationAbstract
 
     public function downgrade()
     {
-        //$this->connection->dropTable('persons');
+        $this->connection->dropTable('persons');
     }
 }

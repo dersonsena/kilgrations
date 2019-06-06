@@ -24,7 +24,11 @@ trait ActionHelperTrait
      */
     private function getMigrationsOfTheDb(int $limit = null): array
     {
-        $sql = "SELECT `migration`, `migration` FROM `". MIGRATION_TABLENAME ."` ORDER BY `timestamp` DESC";
+        $sql = "
+            SELECT `migration`
+            FROM `". MIGRATION_TABLENAME ."`
+            ORDER BY `timestamp` DESC, `id` DESC
+        ";
 
         if (!is_null($limit)) {
             $sql .= " LIMIT {$limit}";
