@@ -2,16 +2,17 @@
 
 namespace Dersonsena\Migrations\Migrations;
 
-class Kilgration1559767005 extends \Dersonsena\Migrations\MigrationAbstract
+class Kilgration1559840589 extends \Dersonsena\Migrations\MigrationAbstract
 {
     public function upgrade()
     {
-        /** Equivalente a: ALTER TABLE `persons` ADD COLUMN `birth_date` DATE DEFAULT NULL */
         $this->connection->addColumn('persons', 'birth_date', 'DATE DEFAULT NULL');
+        $this->connection->addColumn('persons', 'cpf', 'VARCHAR(11) UNIQUE');
     }
 
     public function downgrade()
     {
         $this->connection->dropColumn('persons', 'birth_date');
+        $this->connection->dropColumn('persons', 'cpf');
     }
 }
